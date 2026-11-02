@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Convert PNG, JPEG and WebP images to compact editable SVG paths, locally in your browser."
+    />
+    <title>PNG to SVG — Jenga-Code</title>
+    <link rel="stylesheet" href="css/style.css?v=vector-1" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to vector workshop</a>
+    <header class="site-header">
+      <a aria-label="Jenga-Code homepage" class="brand" href="/"
+        ><svg
+          aria-hidden="true"
+          class="compass-mark"
+          height="54"
+          viewBox="0 0 64 64"
+          width="54"
+        >
+          <circle
+            cx="32"
+            cy="32"
+            fill="none"
+            r="23"
+            stroke="currentColor"
+            stroke-width="1"
+          ></circle>
+          <path
+            d="M32 2 38 26 62 32 38 38 32 62 26 38 2 32 26 26Z"
+            fill="none"
+            stroke="currentColor"
+          ></path>
+          <path
+            d="M32 7 32 32 26 26ZM57 32 32 32 38 26ZM32 57 32 32 38 38ZM7 32 32 32 26 38Z"
+            fill="currentColor"
+          ></path>
+          <circle cx="32" cy="32" fill="currentColor" r="3"></circle></svg
+        ><span
+          >Jenga-Code<small
+            >ALGORITHMS · GAMES · MATHEMATICAL IDEAS</small
+          ></span
+        ></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="/">Home</a><a aria-current="page" href="/apps/">Applications</a
+        ><a href="/blog/">Journal</a
+        ><a href="/qualifications/">Qualifications</a>
+      </nav>
+      <img
+        class="masthead-art"
+        src="images/vector-masthead.webp"
+        width="360"
+        height="120"
+        alt=""
+      />
+    </header>
+
+    <main class="publication" id="main">
+      <aside class="left-column">
+        <p class="eyebrow">Image processing</p>
+        <h1>PNG to SVG</h1>
+        <p class="subtitle">From pixels to paths.</p>
+        <nav class="methods" aria-label="Tracing mode">
+          <button data-mode="color" aria-pressed="true">
+            Colour artwork<span>›</span></button
+          ><button data-mode="bw" aria-pressed="false">
+            Black &amp; white<span>›</span></button
+          ><button data-mode="pixel" aria-pressed="false">
+            Pixel art<span>›</span>
+          </button>
+        </nav>
+        <p class="method-note" id="modeNote">
+          Trace your image into filled shapes and smooth curves, with a limited
+          palette to keep the file manageable.
+        </p>
+        <img
+          class="print-study"
+          src="images/vector-study.webp"
+          width="600"
+          height="900"
+          alt="Engraved drawing instruments, ink and a swallow illustration"
+          decoding="async"
+        />
+        <details>
+          <summary>How it works &amp; credits</summary>
+          <p>
+            Colours are reduced before region tracing. Small regions are
+            filtered, curves are fitted and SVG markup is optimised. The
+            download contains vector shapes, never an embedded copy of the
+            source image.
+          </p>
+          <p>
+            Fewer colours and a lower tracing resolution usually produce smaller
+            files. Fine textures may become flat shapes.
+          </p>
+          <a href="credits.html">Engine, artwork &amp; licences ↗</a>
+        </details>
+      </aside>
+      <section class="studio" aria-labelledby="studioTitle">
+        <p class="eyebrow">The vector workshop</p>
+        <h2 id="studioTitle">Give your image a sharper future.</h2>
+        <p class="intro">
+          Convert a bitmap into scalable vector artwork, entirely in your
+          browser.
+        </p>
+        <div class="workspace" id="workspace">
+          <figure class="original">
+            <div class="image-tab">Original image</div>
+            <div class="frame">
+              <div class="canvas-window">
+                <canvas
+                  id="sourceCanvas"
+                  aria-label="Original raster image"
+                ></canvas>
+              </div>
+            </div>
+            <figcaption>
+              <b>01 / Original raster</b
+              ><span id="sourceName">Loading the sample…</span>
+            </figcaption>
+          </figure>
+          <figure class="processed">
+            <div class="image-tab">Vector result</div>
+            <div class="frame">
+              <div class="canvas-window vector-window">
+                <img id="vectorImage" alt="Traced SVG artwork" hidden />
+                <div
+                  id="pathInspector"
+                  hidden
+                  aria-label="Vector path inspection"
+                ></div>
+                <span id="vectorPlaceholder"
+                  >Your traced artwork appears here</span
+                >
+              </div>
+            </div>
+            <figcaption>
+              <b>02 / Traced SVG</b><span id="resultName">Ready to trace</span>
+            </figcaption>
+          </figure>
+        </div>
+        <div id="comparison" hidden>
+          <div class="frame">
+            <div class="compare-stage">
+              <canvas
+                id="compareOriginal"
+                aria-label="Original in comparison"
+              ></canvas
+              ><img id="compareOutput" alt="Vector result in comparison" />
+              <div id="divider" aria-hidden="true"></div>
+              <span class="badge before">Raster</span
+              ><span class="badge after">Vector</span>
+            </div>
+          </div>
+          <label class="compare-control"
+            >Compare original and vector<input
+              id="compareRange"
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+          /></label>
+        </div>
+        <div class="view-tabs" role="group" aria-label="Image view">
+          <button data-view="side" aria-pressed="true">Side by side</button
+          ><button data-view="compare" aria-pressed="false">
+            Compare slider</button
+          ><button data-view="paths" aria-pressed="false">Inspect paths</button>
+        </div>
+        <div class="trace-metrics">
+          <div><b id="colourCount">—</b><span>colours</span></div>
+          <div><b id="pathCount">—</b><span>paths</span></div>
+          <div><b id="fileSize">—</b><span>SVG size</span></div>
+          <div><b id="traceTime">—</b><span>tracing time</span></div>
+        </div>
+        <p id="status" role="status">Loading the sample image…</p>
+        <p id="sizeNote" class="size-note">
+          Compact defaults · pure vector output · no embedded image
+        </p>
+        <div class="detail-pair">
+          <figure>
+            <div class="detail-frame">
+              <canvas
+                id="bitmapDetail"
+                width="320"
+                height="150"
+                aria-label="Magnified bitmap detail"
+              ></canvas>
+            </div>
+            <figcaption>Bitmap detail <span>Magnified pixels</span></figcaption>
+          </figure>
+          <figure>
+            <div
+              class="detail-frame"
+              id="vectorDetail"
+              aria-label="Magnified SVG detail"
+            ></div>
+            <figcaption>
+              Vector detail <span>The same area, traced</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+      <aside class="settings">
+        <h2>Trace settings</h2>
+        <fieldset>
+          <legend>Source image</legend>
+          <button id="uploadButton" class="primary">
+            ↥ &nbsp; Upload image</button
+          ><input
+            id="imageInput"
+            type="file"
+            accept="image/png,image/jpeg,image/webp"
+            hidden
+          /><button id="sampleButton">Use sample</button>
+        </fieldset>
+        <fieldset>
+          <legend>Quality &amp; file size</legend>
+          <label
+            >Preset<select id="preset">
+              <option value="compact">Compact · smaller files</option>
+              <option value="balanced" selected>Balanced</option>
+              <option value="detailed">Detailed · larger files</option>
+              <option value="custom">Custom</option>
+            </select></label
+          ><label id="coloursLabel"
+            >Maximum colours<output id="colorsValue">16</output
+            ><input
+              id="colors"
+              aria-label="Maximum colours"
+              type="range"
+              min="2"
+              max="64"
+              value="16" /></label
+          ><label
+            >Speckle area<output id="speckleValue">12 px²</output
+            ><input
+              id="speckle"
+              aria-label="Minimum region area"
+              type="range"
+              min="1"
+              max="64"
+              value="12" /></label
+          ><label id="smoothLabel"
+            >Curve simplification<output id="smoothValue">4 px</output
+            ><input
+              id="smooth"
+              aria-label="Curve simplification"
+              type="range"
+              min="2"
+              max="10"
+              value="4" /></label
+          ><label id="cornerLabel"
+            >Corner threshold<output id="cornerValue">60°</output
+            ><input
+              id="corner"
+              aria-label="Corner threshold"
+              type="range"
+              min="30"
+              max="150"
+              step="5"
+              value="60" /></label
+          ><label id="thresholdLabel" hidden
+            >Black &amp; white threshold<output id="thresholdValue">128</output
+            ><input
+              id="threshold"
+              aria-label="Black and white threshold"
+              type="range"
+              min="0"
+              max="255"
+              value="128"
+          /></label>
+        </fieldset>
+        <details class="advanced">
+          <summary>Advanced settings</summary>
+          <label
+            >Tracing resolution<select id="resolution">
+              <option value="320">320 px · tiny</option>
+              <option value="480">480 px · compact</option>
+              <option value="640" selected>640 px · balanced</option>
+              <option value="960">960 px · detailed</option>
+              <option value="1280">1280 px · large</option>
+            </select></label
+          ><label
+            >Path style<select id="curve">
+              <option value="spline">Smooth curves</option>
+              <option value="polygon">Straight segments</option>
+            </select></label
+          ><label
+            >Coordinate precision<select id="precision">
+              <option value="0">0 decimals · smallest</option>
+              <option value="1" selected>1 decimal · balanced</option>
+              <option value="2">2 decimals · precise</option>
+            </select></label
+          ><label class="check"
+            ><input id="transparent" type="checkbox" checked />Preserve
+            transparent areas</label
+          ><small
+            >Alpha below 50% is transparent. Partial opacity is flattened onto
+            white. Black &amp; white leaves white areas transparent.</small
+          >
+        </details>
+        <button id="traceButton" class="primary" disabled>Trace image</button
+        ><button id="cancelButton" hidden>Cancel tracing</button
+        ><a
+          id="downloadButton"
+          class="download-link"
+          role="button"
+          aria-disabled="true"
+          >↓ &nbsp; Download SVG</a
+        ><button id="smallerButton" disabled>Try a smaller file</button
+        ><button id="resetButton" class="quiet">Reset settings</button>
+        <p class="local-note">Your image stays on your device.</p>
+        <small
+          >Engine: VTracer (WASM)<br />Cleanup: SVGO<br /><a href="credits.html"
+            >Credits &amp; licences</a
+          ></small
+        >
+      </aside>
+    </main>
+    <footer>
+      <span>Jenga-Code / <i>Scalable by design.</i></span>
+    </footer>
+    <script src="js/app.js?v=vector-1"></script>
+  </body>
+</html>

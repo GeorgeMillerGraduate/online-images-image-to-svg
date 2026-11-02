@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Credits — PNG to SVG</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main style="max-width: 780px; margin: 40px auto; padding: 25px">
+      <a href="./">← Back to the vector workshop</a>
+      <h1 style="margin-top: 25px">Credits &amp; tracing notes</h1>
+      <h2 style="font-size: 25px">Vector engine</h2>
+      <p>
+        <a href="https://github.com/jsscheller/vtracer-wasm"
+          >vtracer-wasm 0.1.0</a
+        >, by jsscheller, exposes the VisionCortex tracing pipeline as a browser
+        WebAssembly module. The bundled version uses VisionCortex 0.8.1. It is
+        not the newer VTracer 1.0 alpha package. The JavaScript loader and WASM
+        file are bundled locally.
+      </p>
+      <p>
+        <a href="js/vendor/VTRACER-WASM-LICENSE.txt">Wrapper MIT licence</a> ·
+        <a href="js/vendor/VISIONCORTEX-LICENSE.txt"
+          >VisionCortex MIT licence</a
+        >
+        ·
+        <a href="js/vendor/VISIONCORTEX-ATTRIBUTIONS.md"
+          >VisionCortex third-party notices</a
+        >
+      </p>
+      <h2 style="font-size: 25px">SVG cleanup</h2>
+      <p>
+        <a href="https://github.com/svg/svgo">SVGO 4.0.0</a> is bundled as a
+        browser module, under the
+        <a href="js/vendor/SVGO-LICENSE.txt">MIT licence</a>. Dependency notices
+        are included in <code>js/vendor/licenses/</code>. Multipass optimisation
+        reduces coordinate precision, simplifies path data and removes redundant
+        markup. If optimisation would increase bytes, the smaller original
+        vector markup is kept.
+      </p>
+      <h2 style="font-size: 25px">Local preprocessing</h2>
+      <p>
+        Original JavaScript for Jenga-Code reduces the source to a bounded
+        palette using a weighted median-cut method over a 5-bit-per-channel
+        colour histogram. Palette lookup is cached by colour bin. Result fills
+        are snapped to that palette so colour count remains bounded. This loses
+        colour detail deliberately; it is not lossless reconstruction.
+      </p>
+      <p>
+        Speckle area controls the tracing engine’s minimum region size in
+        working-image pixels. Curve simplification is its segment-length
+        threshold. Corner threshold controls corner detection; it is not a
+        promise to preserve every corner. Pixel mode follows pixel boundaries
+        and can produce larger SVGs.
+      </p>
+      <p>
+        For colour and pixel modes, alpha below 50% is transparent when
+        preservation is selected; semi-transparent pixels are composited onto
+        white. A transparent border activates the engine’s alpha keying and is
+        cropped out using the SVG viewBox. Black-and-white mode traces dark
+        regions only, with white left transparent.
+      </p>
+      <h2 style="font-size: 25px">Artwork</h2>
+      <p>
+        The kingfisher sample, engraved drawing-instrument sidebar and
+        compass-and-pen masthead were created specifically for Jenga-Code with
+        OpenAI image generation, October 2026. They are locally bundled WebP
+        files. The sample is explicitly labelled generated. The vector preview
+        and detail are calculated from the sample by the actual engine.
+      </p>
+      <p>
+        <a href="ASSET-ATTRIBUTIONS.txt">Asset record and generation briefs</a>.
+        The site uses its existing shared Jenga-Code compass SVG logo.
+      </p>
+      <h2 style="font-size: 25px">Honest measurements</h2>
+      <p>
+        SVG size is the actual UTF-8 size of the downloaded markup. Paths counts
+        the final SVG path elements; SVGO may merge paths or convert shapes.
+        Colours counts distinct traced fills before equivalent colour syntax is
+        compressed. Time covers preprocessing, tracing and optimisation inside
+        the worker, excluding image decoding and the initial WASM download. A
+        more detailed trace can be larger than its source raster.
+      </p>
+    </main>
+  </body>
+</html>

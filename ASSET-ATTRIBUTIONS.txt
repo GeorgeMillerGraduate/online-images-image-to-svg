@@ -1,0 +1,17 @@
+Jenga-Code / PNG to SVG / original artwork
+Created October 2026 with OpenAI built-in image generation for this project. No external stock art. Generated-output use remains subject to the service's applicable terms. All assets optimised to WebP; no typography is embedded.
+
+images/kingfisher-sample.webp
+Original AI-generated raster illustration, used as the explicitly labelled sample input.
+Prompt brief: Landscape 3:2 illustration of a kingfisher on a branch beside reeds and a lake, cream sky, navy/teal feathers, copper breast, ochre reeds. Flat gouache/cut-paper style, distinct silhouette, restrained palette, little brush texture. No text, frames, logos or UI. Not a before-after pair.
+
+images/vector-study.webp
+Original AI-generated sidebar illustration.
+Prompt brief: Portrait engraved still life of brass dividers, fountain pen, unlabelled ink bottle, rolled draughtsman's paper and cut-paper swallow, navy/copper/ochre on warm ivory. Fine scientific-journal crosshatching, blank upper space. No text, logos, frames or patterned page background.
+
+images/vector-masthead.webp
+Original AI-generated decorative header vignette.
+Prompt brief: Horizontal 3:1 brass drawing compass and fountain pen nib flanking a fine Bezier curve with small square nodes. Plain ivory, copper/navy scientific-magazine engraving. No labels, logos or frame.
+
+Compass logo: shared existing Jenga-Code SVG mark.
+Application code: original local JavaScript for Jenga-Code. Bundled dependencies and licences are documented in credits.html and js/vendor/.
